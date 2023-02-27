@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Quiz_Game.Models;
 
@@ -22,10 +23,23 @@ namespace Quiz_Game.Controllers
 
         // GET: api/Quizs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Quiz>>> GetQuizzes()
+        public async Task<ActionResult<IEnumerable<Quiz>>> GetQuizzes([FromQuery] string? qKey, [FromQuery] string? lang, [FromQuery] string? qText)
         {
-            return await _context.Quizzes.Include(a => a.quizAnswers).ToListAsync();
+            List<Quiz> quizzes = await _context.Quizzes.Include(a => a.quizAnswers).ToListAsync();
+            if(qKey != null) {
+                quizzes = quizzes.FindAll(q => q.QuestionKey.Equals(qKey));
+            }
+            if(lang != null) {
+                quizzes = quizzes.FindAll(q => q.Language.Equals(lang));
+            }
+
+            if(qText != null) {
+                quizzes = quizzes.FindAll(q => q.Question.Contains(qText));
+            }
+
+            return quizzes;
         }
+
 
         // GET: api/Quizs/5
         [HttpGet("{id}")]
