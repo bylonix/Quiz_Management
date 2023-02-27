@@ -44,7 +44,14 @@ namespace Quiz_Game.Controllers
                 return BadRequest();
             }
 
+            // Removing old Answers
+            _context.quizAnswers.RemoveRange(_context.quizAnswers.Where(a => a.QuizId == id));
+
+            // Updating Quiz
             _context.Entry(quiz).State = EntityState.Modified;
+
+            // Adding new Answers
+            _context.quizAnswers.AddRange(quiz.quizAnswers);
 
             try
             {
