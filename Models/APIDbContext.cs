@@ -8,6 +8,6 @@ namespace Quiz_Game.Models {
         }
 
         public DbSet<Quiz> Quizzes { get; set; }
-
+        public DbSet<QuizAnswer> quizAnswers { get; set; } 
     }
 }

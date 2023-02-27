@@ -24,7 +24,7 @@ namespace Quiz_Game.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Quiz>>> GetQuizzes()
         {
-            return await _context.Quizzes.ToListAsync();
+            return await _context.Quizzes.Include(a => a.quizAnswers).ToListAsync();
         }
 
         // GET: api/Quizs/5
@@ -78,7 +78,6 @@ namespace Quiz_Game.Controllers
         public async Task<ActionResult<Quiz>> PostQuiz(Quiz quiz)
         {
             _context.Quizzes.Add(quiz);
-            // TODO
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetQuiz", new { id = quiz.Id }, quiz);

@@ -13,11 +13,16 @@ namespace Quiz_Game.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Required]
         public string QuestionKey { get; set; } = "";
-        
+
+        [Required]
         public string Language { get; set; } = "";
+        
+        [Required] 
         public string Question { get; set; } = "";
 
+        [Required]
         public List<QuizAnswer> quizAnswers { get; set; } = new List<QuizAnswer>();
 
 
