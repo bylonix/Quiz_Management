@@ -31,14 +31,7 @@ namespace Quiz_Game.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Quiz>> GetQuiz(int id)
         {
-            var quiz = await _context.Quizzes.FindAsync(id);
-
-            if (quiz == null)
-            {
-                return NotFound();
-            }
-
-            return quiz;
+            return await _context.Quizzes.Include(a => a.quizAnswers).FirstAsync(x => x.Id==id);
         }
 
         // PUT: api/Quizs/5
